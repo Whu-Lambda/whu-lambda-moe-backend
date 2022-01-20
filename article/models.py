@@ -3,6 +3,7 @@ from django.db import models
 
 class Article(models.Model):
     name = models.CharField(max_length=64)
+    about = models.TextField()
     content = models.TextField()
     author = models.CharField(max_length=64)
     cover = models.CharField(max_length=255)
