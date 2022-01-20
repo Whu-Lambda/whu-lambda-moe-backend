@@ -1,3 +1,4 @@
+using GrpcServer;
 using GrpcServer.Services;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,7 +16,11 @@ services
     .AddAuthorization(options => 
     { 
     })
-    .AddRouting();
+    .AddRouting()
+    .AddDbContextPool<DbService>(option =>
+    {
+        
+    });
 #endregion
 
 var app = builder.Build();
