@@ -9,8 +9,8 @@ class Activity(models.Model):
         CLOSED = 'closed', _('closed')
 
     name = models.CharField(max_length=64)
-    content = models.TextField()
     summary = models.TextField()
+    content = models.TextField()
     author = models.CharField(max_length=64)
     cover = models.CharField(max_length=255)
     tags = models.CharField(max_length=64)
