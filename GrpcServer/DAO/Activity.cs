@@ -15,7 +15,7 @@ public class Activity
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
-    public Activity(string name, string content, string summary, string author, string cover, string tags, string time_slot, string place)
+    public Activity(string name, string content, string summary, string author, string cover, string tags, string timeSlot, string place)
     {
         Name = name;
         Content = content;
@@ -23,7 +23,7 @@ public class Activity
         Author = author;
         Cover = cover;
         Tags = tags;
-        TimeSlot = time_slot;
+        TimeSlot = timeSlot;
         Place = place;
         Status = "open";
     }
