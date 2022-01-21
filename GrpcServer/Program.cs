@@ -1,25 +1,38 @@
-using GrpcServer;
+using GrpcServer.GrpcServices;
 using GrpcServer.Services;
 
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+IConfiguration configuration = builder.Configuration;
+
+var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("SymmetricKey")));
 
 #region ConfigureServices
 services.AddGrpc();
-services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(option => 
-    { 
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(option =>
+    {
+        option.TokenValidationParameters = new()
+        {
+            IssuerSigningKey = SecurityKey,
+            ValidateIssuer = false,
+            ValidateIssuerSigningKey = true
+        };
     });
 services
-    .AddAuthorization(options => 
-    { 
+    .AddAuthorization(options =>
+    {
     })
     .AddRouting()
     .AddDbContextPool<DbService>(option =>
     {
-        
+        option.UseSqlite(configuration.GetConnectionString("sqlite"));
     });
 #endregion
 
@@ -33,8 +46,7 @@ app
     .UseAuthorization()
     .UseEndpoints(endpoint =>
     {
-        endpoint.MapGrpcService<ActivityServiceImpl>();
-        endpoint.MapGrpcService<ArticleServiceImpl>();
+        endpoint.MapGrpcService<AnonymousService>();
     });
 #endregion
 

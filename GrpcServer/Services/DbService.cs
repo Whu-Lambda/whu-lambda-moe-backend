@@ -2,7 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace GrpcServer;
+namespace GrpcServer.Services;
 
 public class DbService : DbContext
 {
