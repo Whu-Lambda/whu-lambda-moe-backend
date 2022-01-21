@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.42.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
   </ItemGroup>
@@ -20,5 +19,7 @@
   <ItemGroup>
     <Protobuf Include="Protos\anonymous.proto" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://json.schemastore.org/appsettings.json" appsettings_1production_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -36,7 +36,7 @@ public class AnonymousService : Anonymous.AnonymousBase
     {
         var activity = await dbService.FindAsync<DAO.Activity>(request.Value);
         return activity == null ?
-            new Activity() :
+            new() :
             new Activity
             {
                 IsValid = true,

@@ -1,29 +1,19 @@
 using GrpcServer.GrpcServices;
 using GrpcServer.Services;
 
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 IConfiguration configuration = builder.Configuration;
 
-var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("SymmetricKey")));
-
 #region ConfigureServices
 services.AddGrpc();
-services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(option =>
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
     {
-        option.TokenValidationParameters = new()
-        {
-            IssuerSigningKey = SecurityKey,
-            ValidateIssuer = false,
-            ValidateIssuerSigningKey = true
-        };
+        option.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     });
 services
     .AddAuthorization(options =>
@@ -33,7 +23,8 @@ services
     .AddDbContextPool<DbService>(option =>
     {
         option.UseSqlite(configuration.GetConnectionString("sqlite"));
-    });
+    },
+    100);
 #endregion
 
 var app = builder.Build();

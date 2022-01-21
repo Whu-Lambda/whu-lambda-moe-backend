@@ -12,4 +12,8 @@ public class DbService : DbContext
 
     public DbService(DbContextOptions options) : base(options) { }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        Database.EnsureCreated();
+    }
 }
