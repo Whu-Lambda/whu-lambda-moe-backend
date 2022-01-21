@@ -2,19 +2,49 @@
 
 using Grpc.Core;
 
+using GrpcServer.Services;
+
 using Whu.Lambda.Dto;
 
 namespace GrpcServer.GrpcServices;
 
 public class AnonymousService : Anonymous.AnonymousBase
 {
-    public override Task<Article> GetArticle(Int32Value request, ServerCallContext context)
+    private readonly DbService dbService;
+
+    public AnonymousService(DbService dbService)
     {
-        return base.GetArticle(request, context);
+        this.dbService = dbService;
+    }
+    public override async Task<Article> GetArticle(Int32Value request, ServerCallContext context)
+    {
+        var artile = await dbService.FindAsync<DAO.Article>(request.Value);
+        return artile == null ?
+            new Article() :
+            new Article
+            {
+                Author = artile.Author,
+                CreatedAt = Timestamp.FromDateTime(artile.CreatedAt),
+                Content = artile.Content,
+                CoverUrl = artile.Cover,
+                IsValid = true,
+                Name = artile.Name
+            };
     }
 
-    public override Task<Activity> GetActivity(Int32Value request, ServerCallContext context)
+    public override async Task<Activity> GetActivity(Int32Value request, ServerCallContext context)
     {
-        return base.GetActivity(request, context);
+        var activity = await dbService.FindAsync<DAO.Activity>(request.Value);
+        return activity == null ?
+            new Activity() :
+            new Activity
+            {
+                IsValid = true,
+                Name = activity.Name,
+                Content = activity.Content,
+                Place = activity.Place,
+                Status = activity.Status,
+                Time = activity.TimeSlot
+            };
     }
 }
