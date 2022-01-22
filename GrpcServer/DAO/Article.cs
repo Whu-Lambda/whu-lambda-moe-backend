@@ -9,8 +9,8 @@ public class Article
     public string Author { get; set; }
     public string Cover { get; set; }
     public string Tags { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public Article(string name, string about, string content, string author, string cover, string tags)
     {
@@ -20,7 +20,5 @@ public class Article
         Author = author;
         Cover = cover;
         Tags = tags;
-        CreatedAt = CreatedAt;
-        UpdatedAt = CreatedAt;
     }
 }

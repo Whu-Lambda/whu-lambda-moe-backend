@@ -2,9 +2,10 @@
 
 using Grpc.Core;
 
+using GrpcServer.Mixin;
 using GrpcServer.Services;
 
-using Whu.Lambda.Dto;
+using Whu.Lambda.Web;
 
 namespace GrpcServer.GrpcServices;
 
@@ -19,32 +20,12 @@ public class AnonymousService : Anonymous.AnonymousBase
     public override async Task<Article> GetArticle(Int32Value request, ServerCallContext context)
     {
         var artile = await dbService.FindAsync<DAO.Article>(request.Value);
-        return artile == null ?
-            new Article() :
-            new Article
-            {
-                Author = artile.Author,
-                CreatedAt = Timestamp.FromDateTime(artile.CreatedAt),
-                Content = artile.Content,
-                CoverUrl = artile.Cover,
-                IsValid = true,
-                Name = artile.Name
-            };
+        return artile?.ToDTO() ?? new();
     }
 
     public override async Task<Activity> GetActivity(Int32Value request, ServerCallContext context)
     {
         var activity = await dbService.FindAsync<DAO.Activity>(request.Value);
-        return activity == null ?
-            new() :
-            new Activity
-            {
-                IsValid = true,
-                Name = activity.Name,
-                Content = activity.Content,
-                Place = activity.Place,
-                Status = activity.Status,
-                Time = activity.TimeSlot
-            };
+        return activity?.ToDTO() ?? new();
     }
 }

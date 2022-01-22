@@ -10,7 +10,7 @@ public class DbService : DbContext
     public DbSet<Account> Accounts => Set<Account>();
     public DbSet<Article> Articles => Set<Article>();
 
-    public DbService(DbContextOptions options) : base(options) 
+    public DbService(DbContextOptions options) : base(options)
     {
         Database.EnsureCreated();
     }

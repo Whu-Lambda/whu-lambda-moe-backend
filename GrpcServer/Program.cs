@@ -23,8 +23,7 @@ services
     .AddDbContextPool<DbService>(option =>
     {
         option.UseSqlite(configuration.GetConnectionString("sqlite"));
-    },
-    100);
+    });
 #endregion
 
 var app = builder.Build();
