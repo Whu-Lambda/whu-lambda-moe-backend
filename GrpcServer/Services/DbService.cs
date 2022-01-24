@@ -1,7 +1,5 @@
 ﻿using GrpcServer.DAO;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace GrpcServer.Services;
 
 public class DbService : DbContext
@@ -14,5 +12,4 @@ public class DbService : DbContext
     {
         Database.EnsureCreated();
     }
-
 }
