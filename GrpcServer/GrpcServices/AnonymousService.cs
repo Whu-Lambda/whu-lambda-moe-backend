@@ -6,8 +6,8 @@ using GrpcServer.Mixin;
 using GrpcServer.Services;
 
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Caching.Memory;
 
 using System.Security.Claims;
 
@@ -68,5 +68,21 @@ public class AnonymousService : Anonymous.AnonymousBase
             return new() { Value = true };
         }
         return new();
+    }
+
+    public override async Task GetActivities(Empty request, IServerStreamWriter<Activity> responseStream, ServerCallContext context)
+    {
+        await foreach (var activity in dbService.Activities)
+        {
+            await responseStream.WriteAsync(activity.ToDTO());
+        }
+    }
+
+    public override async Task GetArticles(Empty request, IServerStreamWriter<Article> responseStream, ServerCallContext context)
+    {
+        await foreach (var article in dbService.Articles)
+        {
+            await responseStream.WriteAsync(article.ToDTO());
+        }
     }
 }

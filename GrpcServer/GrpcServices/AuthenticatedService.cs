@@ -29,7 +29,7 @@ public class AuthenticatedService : Authenticated.AuthenticatedBase
     {
         var httpContext = context.GetHttpContext();
         var claim = httpContext.User.FindFirst(AuthService.Key);
-        if(claim == null)
+        if (claim == null)
         {
             logger.LogError("Token not found, but passed auth.");
             return new();

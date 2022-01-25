@@ -22,6 +22,7 @@ public static class ActivityExtension
             IsValid = true,
             Place = a.Place,
             Status = a.Status,
-            Time = a.TimeSlot
+            Time = a.TimeSlot,
+            Id = a.Id
         };
 }

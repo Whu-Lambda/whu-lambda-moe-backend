@@ -19,6 +19,7 @@ public static class ArticleExtension
             CreatedAt = Timestamp.FromDateTimeOffset(a.CreatedAt),
             CoverUrl = a.Cover,
             Tags = a.Tags,
-            IsValid = true
+            IsValid = true,
+            Id = a.Id
         };
 }
