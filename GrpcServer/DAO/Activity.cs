@@ -9,13 +9,13 @@ public class Activity
     public string Author { get; set; }
     public string Cover { get; set; }
     public string Tags { get; set; }
-    public string Status { get; set; } = "open";
+    public string Status { get; set; }
     public string TimeSlot { get; set; }
     public string Place { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
-    public DateTime UpdatedAt { get; set; } = DateTime.Now;
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
-    public Activity(string name, string content, string summary, string author, string cover, string tags, string timeSlot, string place)
+    public Activity(string name, string content, string summary, string author, string cover, string tags, string timeSlot, string place, string status = "open", DateTimeOffset createdAt = default, DateTimeOffset updatedAt = default)
     {
         Name = name;
         Content = content;
@@ -25,5 +25,8 @@ public class Activity
         Tags = tags;
         TimeSlot = timeSlot;
         Place = place;
+        Status = status;
+        CreatedAt = createdAt == default ? DateTime.Now : createdAt;
+        UpdatedAt = updatedAt == default ? DateTime.Now : updatedAt;
     }
 }

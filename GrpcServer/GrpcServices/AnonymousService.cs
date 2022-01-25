@@ -7,6 +7,7 @@ using GrpcServer.Services;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 using System.Security.Claims;
 
@@ -18,11 +19,13 @@ public class AnonymousService : Anonymous.AnonymousBase
 {
     private readonly DbService dbService;
     private readonly IMemoryCache cache;
+    private readonly ILogger<AnonymousService> logger;
 
-    public AnonymousService(DbService dbService, IMemoryCache cache)
+    public AnonymousService(DbService dbService, IMemoryCache cache, ILogger<AnonymousService> logger)
     {
         this.dbService = dbService;
         this.cache = cache;
+        this.logger = logger;
     }
     public override async Task<Article> GetArticle(Int32Value request, ServerCallContext context)
     {
@@ -56,11 +59,12 @@ public class AnonymousService : Anonymous.AnonymousBase
         if (request.Password == acc?.Password)
         {
             string token = Guid.NewGuid().ToString();
-            var expire = new MemoryCacheEntryOptions { SlidingExpiration = AuthService.EXPIRATION };
+            var expire = new MemoryCacheEntryOptions { SlidingExpiration = AuthService.Expiration };
             // May GUID collide with you.
             // Previous token not dismissed.
             cache.Set(token, acc.Username, expire);
-            await context.GetHttpContext().SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(new Claim[] { new(AuthService.KEY, token) })));
+            await context.GetHttpContext().SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(new Claim[] { new(AuthService.Key, token) }, CookieAuthenticationDefaults.AuthenticationScheme)));
+            logger.LogInformation("{User} logged in, token {Token}", acc.Username, token);
             return new() { Value = true };
         }
         return new();

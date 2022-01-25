@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="anonymous.proto" />
+    <None Remove="whu_lambda_web.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="anonymous.proto" />
+    <Protobuf Include="whu_lambda_web.proto" />
   </ItemGroup>
 
 </Project>

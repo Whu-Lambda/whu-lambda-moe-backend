@@ -16,18 +16,25 @@ public class AuthenticatedService : Authenticated.AuthenticatedBase
 {
     private readonly IMemoryCache cache;
     private readonly DbService db;
+    private readonly ILogger<AuthenticatedService> logger;
 
-    public AuthenticatedService(IMemoryCache cache, DbService db)
+    public AuthenticatedService(IMemoryCache cache, DbService db, ILogger<AuthenticatedService> logger)
     {
         this.cache = cache;
         this.db = db;
+        this.logger = logger;
     }
 
     public override async Task<Empty> Logout(Empty request, ServerCallContext context)
     {
         var httpContext = context.GetHttpContext();
-        // May this be null?
-        string token = httpContext.User.FindFirst(AuthService.KEY)!.Value;
+        var claim = httpContext.User.FindFirst(AuthService.Key);
+        if(claim == null)
+        {
+            logger.LogError("Token not found, but passed auth.");
+            return new();
+        }
+        string token = claim.Value;
         cache.Remove(token);
         await httpContext.SignOutAsync();
         return new();

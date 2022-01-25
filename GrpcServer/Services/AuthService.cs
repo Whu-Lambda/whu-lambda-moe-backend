@@ -5,8 +5,8 @@ namespace GrpcServer.Services;
 
 public class AuthService : AuthorizationHandler<AuthService.AuthRequirement>
 {
-    public const string KEY = "auth-token";
-    public static readonly TimeSpan EXPIRATION = TimeSpan.FromDays(14);
+    public const string Key = "auth-token", PolicyName = "NoAnony";
+    public static readonly TimeSpan Expiration = TimeSpan.FromDays(14);
 
     private readonly IMemoryCache cache;
 
@@ -19,7 +19,7 @@ public class AuthService : AuthorizationHandler<AuthService.AuthRequirement>
 
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthRequirement requirement)
     {
-        string? token = context.User.FindFirst(KEY)?.Value;
+        string? token = context.User.FindFirst(Key)?.Value;
         if (cache.TryGetValue(token, out var _))
         {
             context.Succeed(requirement);
