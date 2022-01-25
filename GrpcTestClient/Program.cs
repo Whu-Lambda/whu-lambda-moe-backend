@@ -24,7 +24,6 @@ try
     {
         IsValid = true,
         Name = "114514",
-        CreatedAt = Timestamp.FromDateTimeOffset(DateTime.Now)
     })).Value);
     WriteLine((await client.GetActivityAsync(new()
     {

@@ -7,7 +7,7 @@ namespace GrpcServer.Mixin;
 public static class ActivityExtension
 {
     public static DAO.Activity ToDAO(this Activity a) =>
-        new(a.Name, a.Content, a.Summary, a.Author, a.CoverUrl, a.Tags, a.Time, a.Place, a.Status, a.CreatedAt.ToDateTime());
+        new(a.Name, a.Content, a.Summary, a.Author, a.CoverUrl, a.Tags, a.Time, a.Place, a.Status);
 
     public static Activity ToDTO(this DAO.Activity a) =>
         new()

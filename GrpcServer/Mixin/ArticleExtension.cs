@@ -7,7 +7,7 @@ namespace GrpcServer.Mixin;
 public static class ArticleExtension
 {
     public static DAO.Article ToDAO(this Article a) =>
-        new(a.Name, a.About, a.Content, a.Author, a.CoverUrl, a.Tags, a.CreatedAt.ToDateTime());
+        new(a.Name, a.About, a.Content, a.Author, a.CoverUrl, a.Tags);
 
     public static Article ToDTO(this DAO.Article a) =>
         new()
