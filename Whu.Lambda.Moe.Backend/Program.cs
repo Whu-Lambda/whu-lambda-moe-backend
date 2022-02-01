@@ -1,10 +1,9 @@
 global using Microsoft.EntityFrameworkCore;
-
-using GrpcServer.GrpcServices;
-using GrpcServer.Services;
-
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+
+using Whu.Lambda.Moe.Backend.GrpcServices;
+using Whu.Lambda.Moe.Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -22,18 +21,14 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 services
     .AddAuthorization(options =>
     {
-        options.AddPolicy(AuthService.PolicyName, policy =>
-        {
-            policy.AddRequirements(new AuthService.AuthRequirement());
-        });
-        // It won't be null, right?
-        options.DefaultPolicy = options.GetPolicy(AuthService.PolicyName)!;
+        var policy = new AuthorizationPolicyBuilder()
+            .AddRequirements(new AuthService.AuthRequirement())
+            .Build();
+        options.AddPolicy(AuthService.PolicyName, policy);
+        options.DefaultPolicy = policy;
     })
     .AddRouting()
-    .AddDbContextPool<DbService>(option =>
-    {
-        option.UseSqlite(configuration.GetConnectionString("sqlite"));
-    })
+    .AddDbContextPool<DbService>(option => option.UseSqlite(configuration.GetConnectionString("sqlite")))
     .AddSingleton<IAuthorizationHandler, AuthService>()
     .AddMemoryCache();
 #endregion

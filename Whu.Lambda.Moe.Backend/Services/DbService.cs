@@ -1,6 +1,6 @@
-﻿using GrpcServer.DAO;
+﻿using Whu.Lambda.Moe.Backend.Dao;
 
-namespace GrpcServer.Services;
+namespace Whu.Lambda.Moe.Backend.Services;
 
 public class DbService : DbContext
 {
@@ -8,8 +8,6 @@ public class DbService : DbContext
     public DbSet<Account> Accounts => Set<Account>();
     public DbSet<Article> Articles => Set<Article>();
 
-    public DbService(DbContextOptions options) : base(options)
-    {
+    public DbService(DbContextOptions options) : base(options) =>
         Database.EnsureCreated();
-    }
 }

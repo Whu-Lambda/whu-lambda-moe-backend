@@ -1,4 +1,4 @@
-﻿namespace GrpcServer.DAO;
+﻿namespace Whu.Lambda.Moe.Backend.Dao;
 
 public class Account
 {
@@ -13,19 +13,19 @@ public class Account
     public bool IsActive { get; set; }
     public bool IsStaff { get; set; }
     public bool IsSuperuser { get; set; }
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset UpdatedAt { get; set; }
-    public DateTimeOffset LastLogin { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public DateTime LastLogin { get; set; }
 
-    public Account(string email, string password, string phone, string? username = null, string avatar = "avatar/default.jpg", DateTimeOffset createdAt = default, DateTimeOffset updatedAt = default, string bio = "")
+    public Account(string email, string password, string phone, string? username = null, string avatar = "avatar/default.jpg", DateTime createdAt = default, DateTime updatedAt = default, string bio = "")
     {
         Username = username ?? Guid.NewGuid().ToString();
         Email = email;
         Password = password;
         Phone = phone;
         Avatar = avatar;
-        CreatedAt = createdAt == default ? DateTime.Now : createdAt;
-        UpdatedAt = updatedAt == default ? DateTime.Now : updatedAt;
+        CreatedAt = createdAt == default ? DateTime.UtcNow : createdAt;
+        UpdatedAt = updatedAt == default ? DateTime.UtcNow : updatedAt;
         Bio = bio;
     }
 }

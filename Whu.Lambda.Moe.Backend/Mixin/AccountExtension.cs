@@ -1,13 +1,13 @@
-﻿using Whu.Lambda.Web;
+﻿using Whu.Lambda.Moe.Dto;
 
-namespace GrpcServer.Mixin;
+namespace Whu.Lambda.Moe.Backend.Mixin;
 
 public static class AccountExtension
 {
-    public static DAO.Account ToDAO(this Account a) =>
+    public static Dao.Account ToDAO(this Account a) =>
         new(a.Email, a.Password, a.Phone, a.Username, a.Avatar, bio: a.Bio);
 
-    public static Account ToDTO(this DAO.Account a) =>
+    public static Account ToDTO(this Dao.Account a) =>
         new()
         {
             Avatar = a.Avatar,

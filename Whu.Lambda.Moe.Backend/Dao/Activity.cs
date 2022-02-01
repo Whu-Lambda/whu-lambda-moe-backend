@@ -1,4 +1,4 @@
-﻿namespace GrpcServer.DAO;
+﻿namespace Whu.Lambda.Moe.Backend.Dao;
 
 public class Activity
 {
@@ -12,10 +12,10 @@ public class Activity
     public string Status { get; set; }
     public string TimeSlot { get; set; }
     public string Place { get; set; }
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset UpdatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 
-    public Activity(string name, string content, string summary, string author, string cover, string tags, string timeSlot, string place, string status = "open", DateTimeOffset createdAt = default, DateTimeOffset updatedAt = default)
+    public Activity(string name, string content, string summary, string author, string cover, string tags, string timeSlot, string place, string status = "open", DateTime createdAt = default, DateTime updatedAt = default)
     {
         Name = name;
         Content = content;
@@ -26,7 +26,7 @@ public class Activity
         TimeSlot = timeSlot;
         Place = place;
         Status = status;
-        CreatedAt = createdAt == default ? DateTime.Now : createdAt;
-        UpdatedAt = updatedAt == default ? DateTime.Now : updatedAt;
+        CreatedAt = createdAt == default ? DateTime.UtcNow : createdAt;
+        UpdatedAt = updatedAt == default ? DateTime.UtcNow : updatedAt;
     }
 }

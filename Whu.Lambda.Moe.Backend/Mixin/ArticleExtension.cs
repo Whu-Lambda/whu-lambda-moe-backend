@@ -1,15 +1,15 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 
-using Whu.Lambda.Web;
+using Whu.Lambda.Moe.Dto;
 
-namespace GrpcServer.Mixin;
+namespace Whu.Lambda.Moe.Backend.Mixin;
 
 public static class ArticleExtension
 {
-    public static DAO.Article ToDAO(this Article a) =>
+    public static Dao.Article ToDAO(this Article a) =>
         new(a.Name, a.About, a.Content, a.Author, a.CoverUrl, a.Tags);
 
-    public static Article ToDTO(this DAO.Article a) =>
+    public static Article ToDTO(this Dao.Article a) =>
         new()
         {
             Name = a.Name,

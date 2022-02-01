@@ -1,15 +1,15 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 
-using Whu.Lambda.Web;
+using Whu.Lambda.Moe.Dto;
 
-namespace GrpcServer.Mixin;
+namespace Whu.Lambda.Moe.Backend.Mixin;
 
 public static class ActivityExtension
 {
-    public static DAO.Activity ToDAO(this Activity a) =>
+    public static Dao.Activity ToDAO(this Activity a) =>
         new(a.Name, a.Content, a.Summary, a.Author, a.CoverUrl, a.Tags, a.Time, a.Place, a.Status);
 
-    public static Activity ToDTO(this DAO.Activity a) =>
+    public static Activity ToDTO(this Dao.Activity a) =>
         new()
         {
             Name = a.Name,

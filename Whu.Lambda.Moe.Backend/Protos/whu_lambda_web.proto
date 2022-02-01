@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package whu.lambda.web;
+package whu.lambda.moe.dto;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
