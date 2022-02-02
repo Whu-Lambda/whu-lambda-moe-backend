@@ -17,10 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\whu_lambda_web.proto" />
+    <Protobuf Include="Protos/whu_lambda_web.proto" />
   </ItemGroup>
 
-  <ItemGroup>
-	<InternalsVisibleTo Include ="Whu.Lambda.Moe.Backend.Test"/>
-  </ItemGroup>
 </Project>
