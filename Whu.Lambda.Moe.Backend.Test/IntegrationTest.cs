@@ -31,7 +31,15 @@ public class IntegrationTest
         var activity = new Activity() { Content = RandString() };
         authed.PostActivity(activity);
         var response = anony.GetActivities(new()).ResponseStream;
-        Assert.True(await response.MoveNext());
-        Assert.Equal(activity.Content, response.Current.Content);
+        bool passed = false;
+        while(await response.MoveNext())
+        {
+            if(response.Current.Content == activity.Content)
+            {
+                passed = true;
+                break;
+            }
+        }
+        Assert.True(passed);
     }
 }
