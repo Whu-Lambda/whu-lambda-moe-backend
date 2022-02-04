@@ -44,6 +44,7 @@ public class AnonymousService : Anonymous.AnonymousBase
         try
         {
             await dbService.SaveChangesAsync();
+            logger.LogSignup(request.Username);
             return new() { Value = true };
         }
         catch (Exception)
@@ -63,7 +64,7 @@ public class AnonymousService : Anonymous.AnonymousBase
             // Previous token not dismissed.
             cache.Set(token, acc.Username, expire);
             await context.GetHttpContext().SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(new Claim[] { new(AuthService.Key, token) }, CookieAuthenticationDefaults.AuthenticationScheme)));
-            logger.LogInformation("{User} logged in, token {Token}", acc.Username, token);
+            logger.LogLogin(acc.Username, token);
             return new() { Value = true };
         }
         return new();

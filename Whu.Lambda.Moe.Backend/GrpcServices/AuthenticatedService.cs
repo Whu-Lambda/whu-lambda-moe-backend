@@ -30,10 +30,11 @@ public class AuthenticatedService : Authenticated.AuthenticatedBase
         var claim = httpContext.User.FindFirst(AuthService.Key);
         if (claim == null)
         {
-            logger.LogError("Token not found, but passed auth.");
+            logger.LogTokenNotFound("passed auth");
             return new();
         }
         string token = claim.Value;
+        logger.LogLogout(cache.Get<string>(token), token);
         cache.Remove(token);
         await httpContext.SignOutAsync();
         return new();

@@ -22,9 +22,9 @@ public class AuthService : AuthorizationHandler<AuthService.AuthRequirement>
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthRequirement requirement)
     {
         string? token = context.User.FindFirst(Key)?.Value;
-        if (cache.TryGetValue(token, out string username))
+        if (token is not null && cache.TryGetValue(token, out string username))
         {
-            logger.LogInformation("{username} passed with token {token}.", username, token);
+            logger.LogAuthPassed(username, token);
             context.Succeed(requirement);
         }
         else
