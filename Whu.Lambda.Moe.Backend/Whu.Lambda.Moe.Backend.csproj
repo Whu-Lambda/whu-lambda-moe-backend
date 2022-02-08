@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>628cd0bd-871c-48d4-ba36-3f6f66885b06</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,13 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="6.0.3" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.42.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos/whu_lambda_web.proto" />
+    <Protobuf Include="Protos/whu_lambda_web.proto" GrpcServices="Server" />
   </ItemGroup>
-
 </Project>

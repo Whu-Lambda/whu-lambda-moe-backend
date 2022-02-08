@@ -2,9 +2,6 @@
 
 using Grpc.Core;
 
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Caching.Memory;
-
 using Whu.Lambda.Moe.Backend.Mixin;
 using Whu.Lambda.Moe.Backend.Services;
 using Whu.Lambda.Moe.Dto;
@@ -13,58 +10,37 @@ namespace Whu.Lambda.Moe.Backend.GrpcServices;
 
 public class AuthenticatedService : Authenticated.AuthenticatedBase
 {
-    private readonly IMemoryCache cache;
     private readonly DbService db;
-    private readonly ILogger<AuthenticatedService> logger;
 
-    public AuthenticatedService(IMemoryCache cache, DbService db, ILogger<AuthenticatedService> logger)
-    {
-        this.cache = cache;
+    public AuthenticatedService(DbService db) =>
+        //this.cache = cache;
         this.db = db;
-        this.logger = logger;
-    }
 
-    public async override Task<Empty> Logout(Empty request, ServerCallContext context)
+    public async override Task<Int32Value> PostActivity(Activity request, ServerCallContext context)
     {
-        var httpContext = context.GetHttpContext();
-        var claim = httpContext.User.FindFirst(AuthService.Key);
-        if (claim == null)
-        {
-            logger.LogTokenNotFound("passed auth");
-            return new();
-        }
-        string token = claim.Value;
-        logger.LogLogout(cache.Get<string>(token), token);
-        cache.Remove(token);
-        await httpContext.SignOutAsync();
-        return new();
-    }
-
-    public async override Task<BoolValue> PostActivity(Activity request, ServerCallContext context)
-    {
-        db.Add(request.ToDAO());
+        var entry = db.Add(request.ToDAO());
         try
         {
-            await db.SaveChangesAsync();
-            return new() { Value = true };
+            _ = await db.SaveChangesAsync();
+            return new() { Value = entry.Entity.Id };
         }
         catch (Exception)
         {
-            return new();
+            return new() { Value = -1 };
         }
     }
 
-    public async override Task<BoolValue> PostArticle(Article request, ServerCallContext context)
+    public async override Task<Int32Value> PostArticle(Article request, ServerCallContext context)
     {
-        db.Add(request.ToDAO());
+        var entry = db.Add(request.ToDAO());
         try
         {
-            await db.SaveChangesAsync();
-            return new() { Value = true };
+            _ = await db.SaveChangesAsync();
+            return new() { Value = entry.Entity.Id };
         }
         catch (Exception)
         {
-            return new();
+            return new() { Value = -1 };
         }
     }
 }

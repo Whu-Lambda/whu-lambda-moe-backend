@@ -10,5 +10,7 @@ Install Docker.
 
 ```bash
 docker build -t whu-lambda/web/grpc .
-docker run -p 80:80 -p 443:443 -d --name TadokoroKoji whu-lambda/web/grpc
+docker run -p 80:80 -p 443:443 -d --name TadokoroKoji whu-lambda/web/grpc Github:ClientID={clientID} Github:ClientSecret={clientSecret}
 ```
+
+Replace `{clientID}` and `{clientSecret}` with the correct secret.

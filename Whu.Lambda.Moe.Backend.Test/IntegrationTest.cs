@@ -1,8 +1,6 @@
-using Grpc.Core;
 using Grpc.Net.Client;
 
 using System;
-using System.Threading.Tasks;
 
 using Whu.Lambda.Moe.Dto;
 
@@ -12,6 +10,8 @@ namespace Whu.Lambda.Moe.Backend.Test;
 
 public class IntegrationTest
 {
+    const string Url = "https://localhost:14514";
+
     private static string RandString()
     {
         byte[] bytes = new byte[100];
@@ -20,26 +20,14 @@ public class IntegrationTest
     }
 
     [Fact]
-    public async Task SampleTest()
+    public void SampleTest()
     {
-        var channel = GrpcChannel.ForAddress("https://localhost:7262");
+        var channel = GrpcChannel.ForAddress(Url);
         var anony = new Anonymous.AnonymousClient(channel);
-        var account = new Account() { Username = RandString(), Password = RandString() };
-        anony.Signup(account);
-        anony.Login(new() { Username = account.Username, Password = account.Password });
         var authed = new Authenticated.AuthenticatedClient(channel);
         var activity = new Activity() { Content = RandString() };
-        authed.PostActivity(activity);
-        var response = anony.GetActivities(new()).ResponseStream;
-        bool passed = false;
-        while(await response.MoveNext())
-        {
-            if(response.Current.Content == activity.Content)
-            {
-                passed = true;
-                break;
-            }
-        }
-        Assert.True(passed);
+        int id = authed.PostActivity(activity).Value;
+        var response = anony.GetActivity(new() { Value = id });
+        Assert.True(response.Content == activity.Content);
     }
 }
