@@ -12,7 +12,7 @@ public class Article
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
-    public Article(string name, string about, string content, string author, string cover, string tags, DateTime createdAt = default, DateTime updatedAt = default)
+    public Article(string name, string about, string content, string author, string cover, string tags)
     {
         Name = name;
         About = about;
@@ -20,7 +20,7 @@ public class Article
         Author = author;
         Cover = cover;
         Tags = tags;
-        CreatedAt = createdAt == default ? DateTime.UtcNow : createdAt;
-        UpdatedAt = updatedAt == default ? DateTime.UtcNow : updatedAt;
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

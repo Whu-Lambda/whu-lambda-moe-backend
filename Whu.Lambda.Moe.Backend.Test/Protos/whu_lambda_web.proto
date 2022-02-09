@@ -52,6 +52,7 @@ message Account{
 */
 
 service Anonymous{
+    rpc HealthCheck(google.protobuf.Empty) returns(google.protobuf.Empty);
     rpc GetActivity(google.protobuf.Int32Value) returns(Activity);
     rpc GetActivities(google.protobuf.Empty) returns(stream Activity);
     rpc GetArticle(google.protobuf.Int32Value) returns(Article);

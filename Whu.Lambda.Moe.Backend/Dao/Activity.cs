@@ -15,7 +15,7 @@ public class Activity
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
-    public Activity(string name, string content, string summary, string author, string cover, string tags, string timeSlot, string place, string status = "open", DateTime createdAt = default, DateTime updatedAt = default)
+    public Activity(string name, string content, string summary, string author, string cover, string tags, string timeSlot, string place, string status = "open")
     {
         Name = name;
         Content = content;
@@ -26,7 +26,7 @@ public class Activity
         TimeSlot = timeSlot;
         Place = place;
         Status = status;
-        CreatedAt = createdAt == default ? DateTime.UtcNow : createdAt;
-        UpdatedAt = updatedAt == default ? DateTime.UtcNow : updatedAt;
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

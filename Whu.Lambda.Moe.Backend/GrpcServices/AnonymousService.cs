@@ -40,4 +40,6 @@ public class AnonymousService : Anonymous.AnonymousBase
             await responseStream.WriteAsync(article.ToDTO());
         }
     }
+
+    public override Task<Empty> HealthCheck(Empty request, ServerCallContext context) => Task.FromResult(new Empty());
 }

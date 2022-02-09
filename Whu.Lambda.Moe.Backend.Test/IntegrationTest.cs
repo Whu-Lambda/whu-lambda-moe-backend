@@ -11,6 +11,15 @@ namespace Whu.Lambda.Moe.Backend.Test;
 public class IntegrationTest
 {
     const string Url = "https://localhost:14514";
+    private readonly Anonymous.AnonymousClient anony;
+    private readonly Authenticated.AuthenticatedClient authed;
+
+    public IntegrationTest()
+    {
+        var channel = GrpcChannel.ForAddress(Url);
+        anony = new Anonymous.AnonymousClient(channel);
+        authed = new Authenticated.AuthenticatedClient(channel);
+    }
 
     private static string RandString()
     {
@@ -20,11 +29,17 @@ public class IntegrationTest
     }
 
     [Fact]
+    public void HealthCheck() => anony.HealthCheck(new());
+
+    [Fact]
+    public void AnonyCheck() => anony.GetActivities(new());
+
+    [Fact]
+    public void AuthCheck() => authed.PostActivity(new());
+
+    [Fact]
     public void SampleTest()
     {
-        var channel = GrpcChannel.ForAddress(Url);
-        var anony = new Anonymous.AnonymousClient(channel);
-        var authed = new Authenticated.AuthenticatedClient(channel);
         var activity = new Activity() { Content = RandString() };
         int id = authed.PostActivity(activity).Value;
         var response = anony.GetActivity(new() { Value = id });
