@@ -43,8 +43,8 @@ serviceBuilder
 serviceBuilder
     .AddAuthorization()
     .AddRouting()
-    .AddDbContextPool<DbService>(option => option.UseSqlite(configuration.GetConnectionString("sqlite")))
-    .AddMemoryCache();
+    //.AddMemoryCache()
+    .AddDbContextPool<DbService>(option => option.UseSqlite(configuration.GetConnectionString("sqlite")));
 #endregion
 
 var app = builder.Build();
