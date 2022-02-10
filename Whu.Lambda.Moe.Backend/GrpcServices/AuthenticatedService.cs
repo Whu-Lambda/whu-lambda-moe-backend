@@ -43,4 +43,6 @@ public class AuthenticatedService : Authenticated.AuthenticatedBase
             return new() { Value = -1 };
         }
     }
+
+    public override Task<Empty> HealthCheck(Empty request, ServerCallContext context) => Task.FromResult(new Empty());
 }

@@ -19,6 +19,7 @@ public class IntegrationTest
         var channel = GrpcChannel.ForAddress(Url);
         anony = new Anonymous.AnonymousClient(channel);
         authed = new Authenticated.AuthenticatedClient(channel);
+        anony.HealthCheck(new());
     }
 
     private static string RandString()
@@ -29,13 +30,14 @@ public class IntegrationTest
     }
 
     [Fact]
-    public void HealthCheck() => anony.HealthCheck(new());
+    public void AnonyCheck()
+    {
+        var stream = anony.GetActivities(new());
+        while (stream.ResponseStream.MoveNext(default).Result) ;
+    }
 
     [Fact]
-    public void AnonyCheck() => anony.GetActivities(new());
-
-    [Fact]
-    public void AuthCheck() => authed.PostActivity(new());
+    public void AuthCheck() => authed.HealthCheck(new());
 
     [Fact]
     public void SampleTest()
