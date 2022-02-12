@@ -111,7 +111,7 @@ static void MapAuthenticaters(IEndpointRouteBuilder endpoint, IEnumerable<string
                 var cache = context.RequestServices.GetRequiredService<IMemoryCache>();
                 cache.Set(token, oauth.AccountId, cacheOptions);
 
-                var logger = context.RequestServices.GetRequiredService<ILogger>();
+                var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
                 logger.LogLoginScheme(oauthId, scheme);
 
                 await signinTask;
@@ -143,7 +143,7 @@ app
                 var services = context.RequestServices;
                 if (services.GetRequiredService<IMemoryCache>().TryGetValue(token, out string id))
                 {
-                    services.GetRequiredService<ILogger>().LogLogout(id);
+                    services.GetRequiredService<ILogger<Program>>().LogLogout(id);
                 }
             }
 

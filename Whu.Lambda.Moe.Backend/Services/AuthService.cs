@@ -8,7 +8,7 @@ public class AuthService : AuthorizationHandler<AuthService.AuthRequirement>
     public const string UserRole = "User";
 
     private readonly IMemoryCache cache;
-    private readonly IWebHostEnvironment environment;
+    private readonly bool isDev;
     private readonly ILogger<AuthService> logger;
 
     public class AuthRequirement : IAuthorizationRequirement { }
@@ -16,17 +16,17 @@ public class AuthService : AuthorizationHandler<AuthService.AuthRequirement>
     public AuthService(IMemoryCache cache, IWebHostEnvironment environment, ILogger<AuthService> logger)
     {
         this.cache = cache;
-        this.environment = environment;
+        isDev = environment.IsDevelopment();
         this.logger = logger;
     }
 
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthRequirement requirement)
     {
-        if (environment.IsDevelopment())
+        if (isDev)
         {
             context.Succeed(requirement);
         }
-        else if (context.User.Identity?.Name is string token && cache.TryGetValue(token, out string id))
+        if (context.User.Identity?.Name is string token && cache.TryGetValue(token, out string id))
         {
             context.Succeed(requirement);
             logger.LogLogin(id);

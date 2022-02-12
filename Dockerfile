@@ -3,10 +3,10 @@ WORKDIR /Whu.Lambda.Moe.Backend
 COPY Whu.Lambda.Moe.Backend/*.csproj ./
 RUN dotnet restore
 COPY Whu.Lambda.Moe.Backend/ ./
-RUN dotnet publish -c Release -o /app --no-restore
+RUN dotnet publish -o /app --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /app/ ./
 ENTRYPOINT ["dotnet", "Whu.Lambda.Moe.Backend.dll"]
-EXPOSE 80 443
+EXPOSE 5000 5001

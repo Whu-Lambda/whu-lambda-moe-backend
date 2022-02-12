@@ -13,7 +13,6 @@ public class AuthenticatedService : Authenticated.AuthenticatedBase
     private readonly DbService db;
 
     public AuthenticatedService(DbService db) =>
-        //this.cache = cache;
         this.db = db;
 
     public async override Task<Int32Value> PostActivity(Activity request, ServerCallContext context)

@@ -10,10 +10,18 @@ Install Docker.
 
 ```bash
 docker build -t whu-lambda/web/grpc .
-docker run -p 80:80 -p 443:443 -d --name TadokoroKoji whu-lambda/web/grpc Github:ClientID={clientID} Github:ClientSecret={clientSecret} Microsoft:ClientID={clientID} Microsoft:ClientSecret={clientSecret}
+docker run [-p {real port}:5000] -p {real port}:5001 -d --name TadokoroKoji whu-lambda/web/grpc Github:ClientSecret={clientSecret} Microsoft:ClientSecret={clientSecret}
 ```
 
-Replace `{clientID}` and `{clientSecret}` with the correct secret.  
-Or use envirenment variables(replace `:` with `__`).  
-Or use Secret Manager(not sure if works in production).  
-See [Secrets Management](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets).
+Options in `[]` are optional.
+
+In container, port `5000` is for http, and port `5001` is for https. They are bound to `{real port}` of the host.
+
+For now, `appsettings.Production.json` under `./Whu.Lambda.Moe.Backend` is configured for development. Rewrite it in production.
+
+To use certificates, see [Configure Certificates](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/endpoints?view=aspnetcore-6.0#replace-the-default-certificate-from-configuration).
+
+Replace `{clientSecret}` with the correct secret.
+
+`{clientSecret}` can also be provided by envirenment variables(replace `:` with `__`) | Secret Manager(not sure if works in production) | etc.
+(See [Secrets Management](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets))
