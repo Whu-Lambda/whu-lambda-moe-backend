@@ -39,12 +39,14 @@ serviceBuilder
         options.ClientId = configuration["Github:ClientID"];
         options.ClientSecret = configuration["Github:ClientSecret"];
         options.CallbackPath = "/callback/auth/GitHub";
+        options.AccessDeniedPath = "/";
     })
     .AddMicrosoftAccount(options =>
     {
         options.ClientId = configuration["Microsoft:ClientID"];
         options.ClientSecret = configuration["Microsoft:ClientSecret"];
         options.CallbackPath = "/callback/auth/Microsoft";
+        options.AccessDeniedPath = "/";
     });
 serviceBuilder
     .AddAuthorization(options =>
