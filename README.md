@@ -25,3 +25,5 @@ Replace `{clientSecret}` with the correct secret.
 
 `{clientSecret}` can also be provided by envirenment variables(replace `:` with `__`) | Secret Manager(not sure if works in production) | etc.
 (See [Secrets Management](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets))
+
+Only HTTP/2 requests are accepted.
