@@ -10,16 +10,14 @@ Install Docker.
 
 ```bash
 docker build -t whu-lambda/web/grpc .
-docker run [-p {real port}:5000] -p {real port}:5001 -d --name TadokoroKoji whu-lambda/web/grpc Github:ClientSecret={clientSecret} Microsoft:ClientSecret={clientSecret}
+docker run -p {real port}:80 -d --name TadokoroKoji whu-lambda/web/grpc Github:ClientSecret={clientSecret} Microsoft:ClientSecret={clientSecret}
 ```
 
 Options in `[]` are optional.
 
-In container, port `5000` is for http, and port `5001` is for https. They are bound to `{real port}` of the host.
+In container, port `80` is for http. They are bound to `{real port}` of the host.
 
 For now, `appsettings.Production.json` under `./Whu.Lambda.Moe.Backend` is configured for development. Rewrite it in production.
-
-To use certificates, see [Configure Certificates](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/endpoints?view=aspnetcore-6.0#replace-the-default-certificate-from-configuration).
 
 Replace `{clientSecret}` with the correct secret.
 

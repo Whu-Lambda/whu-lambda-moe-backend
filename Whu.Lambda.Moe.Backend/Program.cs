@@ -128,14 +128,13 @@ static void MapAuthenticaters(IEndpointRouteBuilder endpoint, IEnumerable<string
 
 #region Configure
 app
-    .UseHttpsRedirection()
     .UseRouting()
     .UseAuthentication()
     .UseAuthorization()
     .UseEndpoints(endpoint =>
     {
         endpoint.MapGrpcService<AnonymousService>();
-        endpoint.MapGrpcService<AuthenticatedService>().RequireAuthorization("");
+        endpoint.MapGrpcService<AuthenticatedService>().RequireAuthorization();
         MapAuthenticaters(endpoint, new[] { GitHubAuthenticationDefaults.AuthenticationScheme, MicrosoftAccountDefaults.AuthenticationScheme });
         endpoint.MapGet("/logout", async context =>
         {
