@@ -10,7 +10,7 @@ namespace Whu.Lambda.Moe.Backend.Test;
 
 public class IntegrationTest
 {
-    const string Url = "https://localhost:5001";
+    const string Url = "http://localhost:5000";
     private readonly Anonymous.AnonymousClient anony;
     private readonly Authenticated.AuthenticatedClient authed;
 

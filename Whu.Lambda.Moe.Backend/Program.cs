@@ -30,7 +30,6 @@ serviceBuilder
     })
     .AddCookie(option =>
     {
-        option.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         option.ExpireTimeSpan = TimeSpan.FromDays(14);
         option.SlidingExpiration = true;
     })
